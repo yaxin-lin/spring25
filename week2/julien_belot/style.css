@@ -5,7 +5,7 @@ img {
 body {
     text-align: left;
     font-family: 'Arial';
-    color: purple;
+    color: white;
 }
 
 h2 {
@@ -18,18 +18,15 @@ h2 {
     text-shadow: 2px 2px;
 }
 
-h3 {
-    background-image:"./images/DJI_0283.jpg";
-}
 
 /*html { 
     background: "./images/DJI_0283.jpg"; 
     background-size:auto;
   }
 */
-.bg{
-    background-image:"./images/DJI_0283.jpg";
-    background-size:100% 100%;
-     z-index:-100;
-  
+
+body {
+    background-image:url("./images/DJI_0283.jpg");
+    background-size:100% auto;
+    background-repeat: no-repeat;
    }
