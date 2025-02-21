@@ -5,15 +5,19 @@
 </head>
 
 <body>
-    <h1><span id="counter">0</span> cookies</h1>
-    
-    <img id="cookie-img" 
-        src="https://assets.bonappetit.com/photos/5ca534485e96521ff23b382b/1:1/w_2560%2Cc_limit/chocolate-chip-cookie.jpg"
-        class="cookie"
-        onclick="addOneToCounter()"/>
+    <div class="container">
+        <h1><span id="counter">0</span> bites 🍪</h1>
+        <h2 id="cookie-count">Cookies eaten: 0</h2> 
 
-    <button id="restart-btn" onclick="restartGame()" style="display: none;">Restart</button>
+        <div class="image-container">
+            <img id="cookie-img" src="cookies/1.png" class="cookie" onclick="addOneToCounter()"/>
+        </div>
 
-    <script src="/week3/rachel_xu/script.js"></script>
+        <button id="restart-btn" onclick="restartGame()" style="display: none;">
+            Let me eat one more 🥹
+        </button>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
