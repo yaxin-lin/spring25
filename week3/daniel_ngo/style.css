@@ -10,3 +10,8 @@ body {
 img {
     width: 500px;
 }
+
+h2, p {
+    margin: 0
+}
+
