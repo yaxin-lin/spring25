@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let cookiesSpent = document.getElementById("cookiesSpent");
     let cookieMonsterPopup = document.getElementById("cookieMonsterPopup");
     let unlockMessage = document.getElementById("unlockMessage");
-    let closeButton = document.getElementById("closePopupButton"); // Get the close button
+    let closeButton = document.getElementById("closePopupButton");
 
     let totalSpent = 0;
     let extraCookieActive = false;
@@ -57,9 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 1000);
     });
 
-    // Attach event listener to the cookie image
     cookie.addEventListener("click", addOneToCounter);
 
-    // Attach event listener to the close button
     closeButton.addEventListener("click", closePopup);
 });
