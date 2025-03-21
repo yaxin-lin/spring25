@@ -1,0 +1,77 @@
+Live Chat
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #messages {
+            list-style-type: none;
+            padding: 0;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .message {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+            max-width: 60%;
+            word-wrap: break-word;
+        }
+        .my-message {
+            background-color: #007bff;
+            color: white;
+            text-align: right;
+            margin-left: auto;
+        }
+        .other-message {
+            background-color: #f1f1f1;
+            color: black;
+            text-align: left;
+            margin-right: auto;
+        }
+    </style>
+    <script>
+        const socket = io();
+
+        const username = prompt("Enter your name:");
+
+        window.onload = function() {
+            document.getElementById("form").addEventListener("submit", function(e) {
+                e.preventDefault();
+                let input = document.getElementById("input");
+                if (input.value) {
+                    socket.emit("chat message", { user: username, message: input.value });
+                    input.value = "";
+                }
+            });
+
+            socket.on("chat message", function(data) {
+                let item = document.createElement("li");
+                item.classList.add("message");
+
+                if (data.user === username) {
+                    item.classList.add("my-message");
+                    item.innerHTML = `<strong>Me:</strong> ${data.message}`;
+                } else {
+                    item.classList.add("other-message");
+                    item.innerHTML = `<strong>${data.user}:</strong> ${data.message}`;
+                }
+
+                document.getElementById("messages").appendChild(item);
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+        };
+    </script>
+</head>
+<body>
+    <ul id="messages"></ul>
+    <form id="form">
+        <input id="input" autocomplete="off"><button>Send</button>
+    </form>
+</body>
+</html>
