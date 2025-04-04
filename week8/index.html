@@ -1,0 +1,140 @@
+Live Chat
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Chat</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    #chat-section {
+      display: none;
+    }
+
+    #messages {
+      list-style-type: none;
+      padding: 0;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .message {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 10px;
+      max-width: 60%;
+      word-wrap: break-word;
+    }
+
+    .my-message {
+      background-color: #007bff;
+      color: white;
+      text-align: right;
+      margin-left: auto;
+    }
+
+    .other-message {
+      background-color: #f1f1f1;
+      color: black;
+      text-align: left;
+      margin-right: auto;
+    }
+
+    #login-section {
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    #username-input {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    #start-button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+
+  <div id="login-section">
+    <h2>Enter your name to join chat:</h2>
+    <input id="username-input" placeholder="Your name" />
+    <button id="start-button">Start Chat</button>
+  </div>
+
+
+  <div id="chat-section">
+    <ul id="messages"></ul>
+    <form id="form">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
+  </div>
+
+  <script>
+    let socket;
+    let username;
+
+    document.getElementById("start-button").addEventListener("click", function () {
+      const input = document.getElementById("username-input");
+      const name = input.value.trim();
+
+      if (name) {
+        username = name;
+
+        
+        document.getElementById("login-section").style.display = "none";
+        document.getElementById("chat-section").style.display = "block";
+
+        socket = io();
+
+        
+        fetch('/messages')
+          .then(res => res.json())
+          .then(history => {
+            history.forEach(data => {
+              appendMessage(data.user, data.content);
+            });
+          });
+
+        
+        document.getElementById("form").addEventListener("submit", function (e) {
+          e.preventDefault();
+          const input = document.getElementById("input");
+          if (input.value) {
+            socket.emit("chat message", { user: username, message: input.value });
+            input.value = "";
+          }
+        });
+
+        
+        socket.on("chat message", function (data) {
+          appendMessage(data.user, data.message);
+        });
+      }
+    });
+
+    function appendMessage(user, message) {
+      const item = document.createElement("li");
+      item.classList.add("message");
+
+      if (user === username) {
+        item.classList.add("my-message");
+        item.innerHTML = `<strong>Me:</strong> ${message}`;
+      } else {
+        item.classList.add("other-message");
+        item.innerHTML = `<strong>${user}:</strong> ${message}`;
+      }
+
+      document.getElementById("messages").appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+  </script>
+</body>
+</html>
